@@ -19,7 +19,7 @@ let handleUserLogin = (email, password) => {
             let isExist = await checkUserEmail(email)
             if (isExist) {
                 let user = await db.User.findOne({
-                    attributes: ['email', 'password', 'roleId'],
+                    attributes: ['email', 'password', 'roleId', 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true,
                 })
@@ -112,8 +112,10 @@ let createNewUser = data => {
                     lastName: data.lastName,
                     address: data.address,
                     phoneNumber: data.phoneNumber,
-                    gender: data.gender === '1' ? true : false,
-                    releId: data.releId,
+                    gender: data.gender,
+                    roleId: data.roleId,
+                    positionId: data.positionId,
+                    image: data.avatar,
                 })
                 resolve({
                     errCode: 0,
@@ -150,6 +152,12 @@ let deleteUser = userId => {
 let editUser = data => {
     return new Promise(async (resolve, reject) => {
         try {
+            if (!data.id || !data.roleId || !data.positionId || !data.gender) {
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Missing parameter',
+                })
+            }
             let user = await db.User.findOne({
                 where: { id: data.id },
                 raw: false,
@@ -161,6 +169,11 @@ let editUser = data => {
                 user.address = data.address
                 user.phoneNumber = data.phoneNumber
                 user.gender = data.gender
+                user.positionId = data.positionId
+                user.roleId = data.roleId
+                if (data.avatar) {
+                    user.image = data.avatar
+                }
                 await user.save()
                 resolve({
                     errCode: 0,
@@ -177,10 +190,35 @@ let editUser = data => {
         }
     })
 }
+
+const getAllCodeService = typeInput => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (typeInput) {
+                let res = {}
+                let allcode = await db.Allcode.findAll({
+                    where: { type: typeInput },
+                })
+                res.errCode = 0
+                res.data = allcode
+                resolve(res)
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter ',
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin,
     getAllUsers,
     createNewUser,
     deleteUser,
     editUser,
+    getAllCodeService,
 }

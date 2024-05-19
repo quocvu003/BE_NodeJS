@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize')
+import { Sequelize } from 'sequelize'
 
 const sequelize = new Sequelize('db_fullstack', 'root', null, {
     host: 'localhost',
@@ -14,4 +14,4 @@ let connectDB = async () => {
     }
 }
 
-module.exports = connectDB
+export default connectDB
