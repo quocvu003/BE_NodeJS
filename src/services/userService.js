@@ -199,6 +199,7 @@ const getAllCodeService = typeInput => {
                 let allcode = await db.Allcode.findAll({
                     where: { type: typeInput },
                 })
+
                 res.errCode = 0
                 res.data = allcode
                 resolve(res)

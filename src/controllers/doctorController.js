@@ -27,5 +27,59 @@ let getAllDoctors = async (req, res) => {
         })
     }
 }
-
-module.exports = { getTopDoctorHome, getAllDoctors }
+let postInfoDoctor = async (req, res) => {
+    try {
+        let doctors = await doctorService.saveInfoDoctorService(req.body)
+        return res.status(200).json(doctors)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let getInfoDoctorById = async (req, res) => {
+    try {
+        let info = await doctorService.getDoctorByIdService(req.query.id)
+        return res.status(200).json(info)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let bulkCreateSchedule = async (req, res) => {
+    try {
+        let info = await doctorService.bulkCreateScheduleService(req.body)
+        return res.status(200).json(info)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let getScheduleByDate = async (req, res) => {
+    try {
+        let info = await doctorService.getScheduleByDateService(req.query.doctorId, req.query.date)
+        return res.status(200).json(info)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+module.exports = {
+    getTopDoctorHome,
+    getAllDoctors,
+    postInfoDoctor,
+    getInfoDoctorById,
+    bulkCreateSchedule,
+    getScheduleByDate,
+}
