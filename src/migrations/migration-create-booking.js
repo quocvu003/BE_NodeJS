@@ -15,13 +15,16 @@ module.exports = {
             doctorId: {
                 type: Sequelize.INTEGER,
             },
-            patinetId: {
+            patientId: {
                 type: Sequelize.INTEGER,
             },
             date: {
-                type: Sequelize.DATE,
+                type: Sequelize.STRING,
             },
             timetype: {
+                type: Sequelize.STRING,
+            },
+            token: {
                 type: Sequelize.STRING,
             },
 

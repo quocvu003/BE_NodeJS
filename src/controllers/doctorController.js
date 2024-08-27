@@ -65,8 +65,67 @@ let bulkCreateSchedule = async (req, res) => {
 }
 let getScheduleByDate = async (req, res) => {
     try {
-        let info = await doctorService.getScheduleByDateService(req.query.doctorId, req.query.date)
+        let info = await doctorService.getScheduleByDateService(
+            req.query.doctorId,
+            req.query.date
+        )
         return res.status(200).json(info)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let getExtraInforDoctorById = async (req, res) => {
+    try {
+        let infor = await doctorService.getExtraInforDoctorById(
+            req.query.doctorId
+        )
+
+        return res.status(200).json(infor)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let getProfileDoctorById = async (req, res) => {
+    try {
+        let infor = await doctorService.getProfileDoctorById(req.query.doctorId)
+
+        return res.status(200).json(infor)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let getListPatientForDoctor = async (req, res) => {
+    try {
+        let infor = await doctorService.getListPatientForDoctor(
+            req.query.doctorId,
+            req.query.date
+        )
+
+        return res.status(200).json(infor)
+    } catch (err) {
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error forms server...',
+        })
+    }
+}
+let sendRemedy = async (req, res) => {
+    try {
+        let infor = await doctorService.sendRemedyService(req.body)
+        return res.status(200).json(infor)
     } catch (err) {
         console.log(err)
         return res.status(200).json({
@@ -82,4 +141,8 @@ module.exports = {
     getInfoDoctorById,
     bulkCreateSchedule,
     getScheduleByDate,
+    getExtraInforDoctorById,
+    getProfileDoctorById,
+    getListPatientForDoctor,
+    sendRemedy,
 }
